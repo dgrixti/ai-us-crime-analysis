@@ -46,7 +46,7 @@ To determine the best approach, we propose the following steps:
    - Train the model using the dataset in its current form (without applying any resampling techniques).
    
 2. **Resampling and Comparison**:
-   - Apply oversampling (e.g., SMOTE) to balance the dataset and train the model on the modified data.
+   - Apply oversampling (e.g., SMOTE) to balance the dataset and train the model on the modified data. This should be done on the training set only.
    - Compare the results of the baseline model and the resampled model using performance metrics such as precision, recall, F1-score, and the P-R curve.
 
 This comparison will provide insights into the effectiveness of imbalance mitigation techniques for our specific use case.
