@@ -16,7 +16,17 @@ input_features = [
 ]
 
 # Options for dropdowns
-state_options = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California']
+##state_options = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California']
+state_options = [
+    'California', 'Texas', 'North Carolina', 'Mississippi', 'Washington', 'Florida', 'Arizona',
+    'Oregon', 'South Dakota', 'Pennsylvania', 'Alabama', 'South Carolina', 'Virginia', 'Indiana',
+    'Oklahoma', 'New York', 'Massachusetts', 'Colorado', 'Kansas', 'Tennessee', 'Illinois',
+    'Maryland', 'Ohio', 'Louisiana', 'Kentucky', 'Michigan', 'Georgia', 'Delaware', 'Arkansas',
+    'Missouri', 'Idaho', 'District of Columbia', 'Connecticut', 'West Virginia', 'New Mexico',
+    'Nevada', 'Minnesota', 'Utah', 'Iowa', 'Wisconsin', 'Nebraska', 'North Dakota', 'Wyoming',
+    'Hawaii', 'Alaska', 'Rhodes Island', 'Vermont', 'Montana', 'Maine', 'New Jersey', 'New Hampshire'
+]
+
 month_options = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
                  'August', 'September', 'October', 'November', 'December']
 sex_options = ['Male', 'Female']
