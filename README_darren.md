@@ -68,12 +68,23 @@ We implemented and compared three machine learning techniques to predict the **W
 
 ---
 
+
 ### **3.2 Model Comparisons**
 
-| **Model**       | **Precision (Firearm)** | **Recall (Firearm)** | **Precision (Non-Firearm)** | **Recall (Non-Firearm)** |
-|------------------|------------------------|---------------------|----------------------------|--------------------------|
-| Random Forest    | 0.85                  | 0.86               | 0.74                      | 0.72                    |
-| XGBoost          | 0.73                  | 0.92               | 0.71                      | 0.36                    |
+| **Model**       | **Precision (Firearm)** | **Recall (Firearm)** | **F1-Score (Firearm)** | **Precision (Non-Firearm)** | **Recall (Non-Firearm)** | **F1-Score (Non-Firearm)** | **Accuracy** |
+|------------------|------------------------|---------------------|------------------------|----------------------------|--------------------------|----------------------------|--------------|
+| Random Forest    | 0.85                  | 0.86               | 0.86                  | 0.74                      | 0.72                    | 0.73                      | 0.81         |
+| XGBoost          | 0.73                  | 0.92               | 0.82                  | 0.71                      | 0.36                    | 0.48                      | 0.72         |
+| LightGBM         | 0.78                  | 0.70               | 0.74                  | 0.52                      | 0.63                    | 0.57                      | 0.68         |
+| CatBoost         | 0.73                  | 0.92               | 0.81                  | 0.69                      | 0.36                    | 0.47                      | 0.72         |
+
+---
+
+**Obsevations**: 
+- **Random Forest** achieved the highest accuracy (**0.81**) and provided the most balanced performance across both classes. It is the best-performing model overall.
+- **XGBoost** and **CatBoost** excelled in predicting the **Firearm** category with high recall (**0.92** for both), but they struggled significantly with **Non-Firearm**, leading to poor overall class balance.
+- **LightGBM** showed slightly better balance than XGBoost and CatBoost but performed worse than Random Forest in terms of accuracy and precision for **Non-Firearm**.
+
 
 **Conclusion**: Random Forest achieved better accuracy and balance between classes, while XGBoost excelled in precision for "Firearm" but struggled with "Non-Firearm."
 
