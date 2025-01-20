@@ -2,6 +2,8 @@
 
 Welcome to the **Weapon Use Prediction** project! This interactive web application leverages machine learning models to predict the type of weapon (Firearm vs. Non-Firearm) used in crimes based on demographic and contextual features. The app is built using **Gradio** and hosted on **Hugging Face Spaces**.
 
+Latest code: https://huggingface.co/spaces/grixtid/ICS5110/tree/main
+
 ---
 
 ## 🔍 **Overview**
