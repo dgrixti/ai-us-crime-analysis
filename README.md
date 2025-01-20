@@ -13,7 +13,7 @@ The primary goal of this project is to analyze crime data and classify weapon us
 - **Logistic Regression**
 - **Artificial Neural Network (ANN)**
 
-The models are trained on a publicly available crime dataset, which includes features such as **Region**, **Victim Age**, **Relationship Type**, and more. The dataset is imbalanced (80,000 Firearm cases vs. 40,000 Non-Firearm cases), and techniques like **SMOTE** were applied to improve model performance.
+The models are trained on a publicly available crime dataset, which includes features such as **Region**, **Victim Age**, **Relationship Type**, and more. The dataset is imbalanced - 102,988 records (67.09%) for "Firearm" compared to approximately 50,523 (32.91%) for "Non-Firearm", and techniques like **SMOTE** were applied to improve model performance.
 
 ---
 
