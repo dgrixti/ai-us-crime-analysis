@@ -1,52 +1,75 @@
-# ai-us-crime-analysis
+# US Crime Analysis: Weapon Use Prediction
 
-
-make sure if you want to re-download the file to delete from cache the entire path:
-/root/.cache/kagglehub/datasets/mrayushagrawal
-
-
-# Notes on Performance Metrics and Imbalance Mitigation
-
-## Performance Metrics
-
-When dealing with imbalanced datasets, accuracy can be misleading as it may disproportionately reflect the performance on the majority class. Instead, we should evaluate model performance using the following metrics:
-
-- **Precision**: Measures the accuracy of positive predictions.
-  - Formula: `Precision = TP / (TP + FP)`
-- **Recall**: Also known as sensitivity, it focuses on identifying all positive cases.
-  - Formula: `Recall = TP / (TP + FN)`
-- **F1-Score**: The harmonic mean of precision and recall, balancing the trade-off between the two.
-- **Precision-Recall (P-R) Curve**: A graphical representation of the trade-off between precision and recall across different thresholds.
-
-These metrics provide better insights into model performance, especially for the minority classes.
+Welcome to the **Weapon Use Prediction** project! This interactive web application leverages machine learning models to predict the type of weapon (Firearm vs. Non-Firearm) used in crimes based on demographic and contextual features. The app is built using **Gradio** and hosted on **Hugging Face Spaces**.
 
 ---
 
-## Imbalance Mitigation Techniques
+## 🔍 **Overview**
 
-To address dataset imbalance, the following techniques can be employed:
+The primary goal of this project is to analyze crime data and classify weapon usage using machine learning techniques. The application supports multiple models, including:
 
-1. **Resampling**:
-   - **Oversampling the Minority Classes**: 
-     - Use methods like **SMOTE** (Synthetic Minority Oversampling Technique) to create synthetic samples for minority classes, effectively balancing the dataset.
-   - **Undersampling the Majority Class**: 
-     - Reduce the size of the majority class to match the minority classes. While this can help balance the data, it risks losing valuable information from the majority class.  
-     - **Recommendation for Our Use Case**: Since "Firearm" is the majority class and contains important information, oversampling the minority classes is preferred over undersampling "Firearm" as not to loose information in it.
+- **Random Forest Classifier**
+- **XGBoost**
+- **Logistic Regression**
+- **Artificial Neural Network (ANN)**
 
-2. **Increasing Class Weights**:
-   - Assign higher weights to minority classes in the model's loss function to penalize misclassifications for these classes more heavily.
+The models are trained on a publicly available crime dataset, which includes features such as **Region**, **Victim Age**, **Relationship Type**, and more. The dataset is imbalanced (80,000 Firearm cases vs. 40,000 Non-Firearm cases), and techniques like **SMOTE** were applied to improve model performance.
 
 ---
 
-## Way Forward
+## 🚀 **Features**
 
-To determine the best approach, we propose the following steps:
+- **Interactive Interface**: Enter key features like Region, Season, Relationship Type, etc., and get predictions in real time.
+- **Multiple Models**: Compare predictions from different machine learning algorithms.
+- **Performance Metrics**: View Accuracy, Precision, Recall, F1-Score, and Confusion Matrix for model performance evaluation.
+- **Real-World Use Case**: Designed for researchers and law enforcement agencies to analyze crime patterns.
 
-1. **Baseline Training**:
-   - Train the model using the dataset in its current form (without applying any resampling techniques).
-   
-2. **Resampling and Comparison**:
-   - Apply oversampling (e.g., SMOTE) to balance the dataset and train the model on the modified data. This should be done on the training set only.
-   - Compare the results of the baseline model and the resampled model using performance metrics such as precision, recall, F1-score, and the P-R curve.
+---
 
-This comparison will provide insights into the effectiveness of imbalance mitigation techniques for our specific use case.
+## 💻 **How to Use**
+
+1. **Access the Application**:
+   - Visit the [Hugging Face Space](#) to interact with the app. The iframe below also provides direct access.
+
+2. **Input Features**:
+   - Select or input values for features like Region, Victim Sex, Relationship Type, etc.
+   - Adjust Victim Age using the slider.
+
+3. **Choose a Model**:
+   - Select a model from the dropdown menu: Random Forest, XGBoost, Logistic Regression, or ANN.
+
+4. **View Predictions**:
+   - The app displays the predicted weapon category (Firearm or Non-Firearm) along with detailed metrics.
+
+---
+
+## 📊 **Technical Details**
+
+### **Dataset**
+- **Source**: [US Crime Dataset on Kaggle](https://www.kaggle.com/datasets/mrayushagrawal/us-crime-dataset)
+- **Features**: Demographics, geographic data, relationships, and crime specifics.
+
+### **Models**
+- **Random Forest**: Robust ensemble method with SMOTE for handling imbalance.
+- **XGBoost**: Boosting algorithm with optimized hyperparameters for precision-recall balance.
+- **Logistic Regression**: Lightweight model with decent accuracy.
+- **ANN**: Neural network with three dense layers for binary classification.
+
+### **Preprocessing**
+- Categorical features: Encoded using LabelEncoder.
+- Numerical features: Standardized using StandardScaler.
+- Class imbalance: Addressed using SMOTE for minority-class oversampling.
+
+---
+
+## 🌐 **Try It Out**
+
+### **Hugging Face Space**
+
+<iframe
+	src="https://grixtid-ics5110.hf.space"
+    width="100%"
+    height="600"
+    frameborder="0"
+    allowfullscreen>
+</iframe>
