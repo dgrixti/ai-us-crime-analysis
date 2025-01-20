@@ -8,14 +8,14 @@ from sklearn.metrics import confusion_matrix, accuracy_score, recall_score, prec
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 from imblearn.over_sampling import SMOTE
 from xgboost import XGBClassifier
-from tensorflow.keras.models import Sequential, load_model
-from tensorflow.keras.layers import Dense
+# from tensorflow.keras.models import Sequential, load_model
+# from tensorflow.keras.layers import Dense
 import os
 import random
 
 # Load datasets
 df_encoded = pd.read_csv('clean_df_3_single_weapon.csv')
-df_dummy = pd.read_csv('crime_dumscalab.csv')
+# df_dummy = get_dummies(df_encoded)
 
 # Initialize encoders for encoded dataset
 categorical_columns = ['Agency Type', 'Victim Sex', 'Victim Age', 'Victim Ethnicity',
@@ -37,7 +37,8 @@ y_encoded = df_encoded['Weapon Category']
 
 # Scale features for encoded dataset
 scaler_encoded = StandardScaler()
-X_scaled_encoded = scaler_encoded.fit_transform(X_encoded)
+# X_scaled_encoded = scaler_encoded.fit_transform(X_encoded)
+X_scaled_encoded = X_encoded
 
 # Train-test split for encoded dataset
 X_train_encoded, X_test_encoded, y_train_encoded, y_test_encoded = train_test_split(
@@ -49,40 +50,40 @@ smote_encoded = SMOTE(random_state=42)
 X_train_resampled_encoded, y_train_resampled_encoded = smote_encoded.fit_resample(X_train_encoded, y_train_encoded)
 
 # Prepare data for dummy variables (logistic regression)
-scaler_dummy = StandardScaler()
-df_dummy['Victim Age Scaled'] = scaler_dummy.fit_transform(df_dummy[['Victim Age']])
-X_dummy = df_dummy.drop(columns=['Unnamed: 0', 'Victim Age', 'Weapon Category', 'Weapon Category.1'])
-y_dummy = df_dummy['Weapon Category.1']
-
-# Train-test split for dummy dataset
-X_train_dummy, X_test_dummy, y_train_dummy, y_test_dummy = train_test_split(
-    X_dummy, y_dummy, test_size=0.3, random_state=42, stratify=y_dummy
-)
+# scaler_dummy = StandardScaler()
+# df_dummy['Victim Age Scaled'] = scaler_dummy.fit_transform(df_dummy[['Victim Age']])
+# X_dummy = df_dummy.drop(columns=['Unnamed: 0', 'Victim Age', 'Weapon Category', 'Weapon Category.1'])
+# y_dummy = df_dummy['Weapon Category.1']
+#
+# # Train-test split for dummy dataset
+# X_train_dummy, X_test_dummy, y_train_dummy, y_test_dummy = train_test_split(
+#     X_dummy, y_dummy, test_size=0.3, random_state=42, stratify=y_dummy
+# )
 
 # Apply SMOTE for dummy dataset
-smote_dummy = SMOTE(random_state=42)
-X_train_resampled_dummy, y_train_resampled_dummy = smote_dummy.fit_resample(X_train_dummy, y_train_dummy)
+# smote_dummy = SMOTE(random_state=42)
+# X_train_resampled_dummy, y_train_resampled_dummy = smote_dummy.fit_resample(X_train_dummy, y_train_dummy)
 
 # File path for saving/loading the model
-neural_network_model_path = "neural_network_model.h5"
+# neural_network_model_path = "neural_network_model.h5"
 
 # Model training functions
-def train_or_load_neural_network():
-    if os.path.exists(neural_network_model_path):
-        print("Loading saved neural network model...")
-        model = load_model(neural_network_model_path)
-    else:
-        print("Training a new neural network model...")
-        model = Sequential([
-            Dense(16, input_dim=X_train_encoded.shape[1], activation='relu'),
-            Dense(8, activation='relu'),
-            Dense(1, activation='sigmoid')
-        ])
-        model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
-        model.fit(X_train_resampled_encoded, y_train_resampled_encoded, 
-                  epochs=50, batch_size=8, validation_split=0.2, verbose=0)
-        model.save(neural_network_model_path)
-    return model
+# def train_or_load_neural_network():
+    # if os.path.exists(neural_network_model_path):
+    #     print("Loading saved neural network model...")
+    #     model = load_model(neural_network_model_path)
+    # else:
+    #     print("Training a new neural network model...")
+    #     model = Sequential([
+    #         Dense(16, input_dim=X_train_encoded.shape[1], activation='relu'),
+    #         Dense(8, activation='relu'),
+    #         Dense(1, activation='sigmoid')
+    #     ])
+    #     model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+    #     model.fit(X_train_resampled_encoded, y_train_resampled_encoded,
+    #               epochs=50, batch_size=8, validation_split=0.2, verbose=0)
+    #     model.save(neural_network_model_path)
+    # return model
 
 def train_random_forest():
     rf_model = RandomForestClassifier(
@@ -92,13 +93,13 @@ def train_random_forest():
     rf_model.fit(X_train_resampled_encoded, y_train_resampled_encoded)
     return rf_model
 
-def train_logistic_regression():
-    log_model = LogisticRegression(
-        C=0.15808394808776696, class_weight=None,
-        max_iter=3000, penalty='l1', solver='liblinear'
-    )
-    log_model.fit(X_train_resampled_dummy, y_train_resampled_dummy)
-    return log_model
+# def train_logistic_regression():
+#     log_model = LogisticRegression(
+#         C=0.15808394808776696, class_weight=None,
+#         max_iter=3000, penalty='l1', solver='liblinear'
+#     )
+#     log_model.fit(X_train_resampled_dummy, y_train_resampled_dummy)
+#     return log_model
 
 def train_xgboost():
     scale_pos_weight = len(y_train_resampled_encoded[y_train_resampled_encoded == 0]) / \
@@ -179,14 +180,14 @@ def gradio_interface(
             label_encoders['Season'].transform([season])[0]
         ]
 
-        input_features_scaled = scaler_encoded.transform([input_features])
+        # input_features_scaled = scaler_encoded.transform([input_features])
 
-        if model_choice == "Neural Network":
-            model = train_or_load_neural_network()
-            input_pred_proba = model.predict(input_features_scaled)
-            input_pred = (input_pred_proba > 0.5).astype(int).flatten()
-            input_pred_proba = np.array([1 - input_pred_proba[0][0], input_pred_proba[0][0]])
-        elif model_choice == "Random Forest Classifier":
+        # if model_choice == "Neural Network":
+            # model = train_or_load_neural_network()
+            # input_pred_proba = model.predict(input_features_scaled)
+            # input_pred = (input_pred_proba > 0.5).astype(int).flatten()
+            # input_pred_proba = np.array([1 - input_pred_proba[0][0], input_pred_proba[0][0]])
+        if model_choice == "Random Forest Classifier":
             model = train_random_forest()
         elif model_choice == "XGBoost":
             model = train_xgboost()
